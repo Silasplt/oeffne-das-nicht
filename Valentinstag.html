@@ -1,0 +1,566 @@
+
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>💘 Valentinstag</title>
+
+  <!-- Nice Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+
+  <style>
+    :root{
+      --bg0:#120812;
+      --bg1:#ff5fa2;
+      --bg2:#ffd1e3;
+      --card: rgba(255,255,255,0.78);
+      --stroke: rgba(255,255,255,0.55);
+      --text:#1f1020;
+      --muted: rgba(31,16,32,0.68);
+      --shadow: 0 24px 70px rgba(0,0,0,0.22);
+      --shadow2: 0 18px 50px rgba(255,95,162,0.25);
+      --radius: 26px;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; }
+    body{
+      margin:0;
+      font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 700px at 20% 10%, rgba(255,95,162,0.32), transparent 60%),
+        radial-gradient(1000px 600px at 80% 20%, rgba(255,209,227,0.36), transparent 55%),
+        radial-gradient(800px 600px at 40% 90%, rgba(255,95,162,0.22), transparent 55%),
+        linear-gradient(180deg, #0c0610, #1a0b1a 55%, #0c0610);
+      overflow:hidden;
+    }
+
+    /* Floating hearts in background */
+    .bg{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      opacity:0.9;
+      filter: blur(0.1px);
+    }
+    .heart{
+      position:absolute;
+      font-size:18px;
+      opacity:0.0;
+      transform: translateY(30px) scale(0.9);
+      animation: floatUp linear infinite;
+    }
+    @keyframes floatUp{
+      0%{ opacity:0; transform: translateY(40px) scale(0.85); }
+      10%{ opacity:0.55; }
+      100%{ opacity:0; transform: translateY(-110vh) scale(1.15); }
+    }
+
+    /* App container */
+    .wrap{
+      height:100%;
+      display:grid;
+      place-items:center;
+      padding: 24px;
+    }
+
+    .frame{
+      width:min(980px, 92vw);
+      height:min(720px, 92vh);
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+      backdrop-filter: blur(12px);
+    }
+
+    /* Soft glow */
+    .glow{
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at 30% 35%, rgba(255,95,162,0.35), transparent 50%),
+        radial-gradient(circle at 70% 60%, rgba(255,209,227,0.25), transparent 55%);
+      filter: blur(20px);
+      opacity:0.9;
+      animation: glowMove 10s ease-in-out infinite alternate;
+    }
+    @keyframes glowMove{
+      from{ transform: translate(-2%, -1%) scale(1.0); }
+      to{ transform: translate(2%, 1%) scale(1.05); }
+    }
+
+    /* Views */
+    .view{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      padding: 34px;
+      transition: opacity .55s ease, transform .55s cubic-bezier(.2,.9,.2,1);
+    }
+    .hidden{
+      opacity:0;
+      transform: translateY(18px) scale(0.99);
+      pointer-events:none;
+    }
+    .shown{
+      opacity:1;
+      transform: translateY(0) scale(1);
+      pointer-events:auto;
+    }
+
+    .card{
+      width:min(780px, 92%);
+      border-radius: 24px;
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.65);
+      box-shadow: var(--shadow2);
+      padding: 30px 28px;
+      text-align:center;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.55);
+      border: 1px solid rgba(0,0,0,0.06);
+      font-weight:600;
+      color: rgba(31,16,32,0.8);
+    }
+
+    .titleCover{
+      margin: 18px 0 8px;
+      font-size: clamp(28px, 4.2vw, 52px);
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      line-height: 1.05;
+    }
+
+    .subtitle{
+      margin:0 auto 18px;
+      max-width: 58ch;
+      color: var(--muted);
+      font-size: clamp(14px, 1.6vw, 17px);
+    }
+   
+    .heart-row{
+    margin: 6px auto 14px;
+    font-size: 20px;
+    letter-spacing: 6px;
+     opacity: 0.85;
+    filter: drop-shadow(0 6px 10px rgba(0,0,0,0.12));
+    user-select: none;
+    }
+
+    .bear-wrap{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap: 18px;
+  margin: 6px 0 12px;
+}
+
+.side-heart{
+  font-size: 34px;
+  opacity: 0.9;
+  transform: translateY(-4px);
+  filter: drop-shadow(0 10px 14px rgba(255,95,162,0.35));
+}
+
+.bear{
+  font-size: 74px;
+}
+
+
+    .cta{
+      margin-top: 18px;
+      display:inline-flex;
+      align-items:center;
+      gap:12px;
+      padding: 14px 18px;
+      border-radius: 16px;
+      cursor:pointer;
+      border: 1px solid rgba(255,255,255,0.65);
+      background: rgba(255,95,162,0.16);
+      transition: transform .12s ease, background .2s ease, box-shadow .2s ease;
+      box-shadow: 0 14px 28px rgba(0,0,0,0.10);
+      user-select:none;
+      font-weight:700;
+    }
+    .cta:hover{
+      transform: translateY(-1px);
+      background: rgba(255,95,162,0.22);
+      box-shadow: 0 16px 34px rgba(0,0,0,0.14);
+    }
+    .cta:active{ transform: translateY(0px) scale(0.99); }
+
+    .sparkle{
+      position:absolute;
+      inset:-40px;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.7), transparent 26%),
+        radial-gradient(circle at 80% 30%, rgba(255,255,255,0.45), transparent 30%),
+        radial-gradient(circle at 60% 85%, rgba(255,255,255,0.35), transparent 30%);
+      opacity:0.35;
+      filter: blur(10px);
+      pointer-events:none;
+    }
+
+    /* Question view typography */
+    .question{
+      font-family: "Pacifico", cursive;
+      font-size: clamp(34px, 4.6vw, 64px);
+      margin: 10px 0 10px;
+      color: #2a0e1f;
+      text-shadow: 0 10px 26px rgba(0,0,0,0.10);
+      line-height: 1.1;
+    }
+
+    .bear{
+      font-size: 74px;
+      margin: 4px 0 12px;
+      filter: drop-shadow(0 16px 14px rgba(0,0,0,0.14));
+      user-select:none;
+    }
+
+    .playground{
+      width: min(760px, 94%);
+      height: 280px;
+      margin: 18px auto 0;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(255,95,162,0.14), rgba(255,255,255,0.55));
+      border: 1px solid rgba(255,255,255,0.7);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.10);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .btn{
+      border:none;
+      cursor:pointer;
+      border-radius: 999px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      transition: transform .12s ease, box-shadow .2s ease, filter .2s ease;
+      user-select:none;
+      will-change: transform, left, top;
+    }
+    .btn:active{ transform: scale(0.98); }
+
+    .yes{
+      position:absolute;
+      left: 50%;
+      top: 66%;
+      transform: translate(-50%, -50%);
+      padding: 18px 40px;
+      font-size: 28px;
+      color: white;
+      background: linear-gradient(135deg, #ff2f7a, #ff78a9);
+      box-shadow: 0 18px 40px rgba(255,47,122,0.35);
+    }
+    .yes:hover{
+      transform: translate(-50%, -50%) scale(1.02);
+      filter: brightness(1.03);
+      box-shadow: 0 22px 52px rgba(255,47,122,0.45);
+    }
+
+    .no{
+      position:absolute;
+      left: 70%;
+      top: 78%;
+      transform: translate(-50%, -50%);
+      padding: 7px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      background: rgba(10,10,12,0.55);
+      color: rgba(255,255,255,0.78);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.20);
+      border: 1px solid rgba(255,255,255,0.10);
+      opacity: 0.95;
+    }
+    .no:hover{
+      filter: brightness(1.1);
+    }
+
+    /* Success overlay */
+    .overlay{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      background: rgba(10, 6, 12, 0.62);
+      backdrop-filter: blur(10px);
+      opacity:0;
+      pointer-events:none;
+      transition: opacity .35s ease;
+    }
+    .overlay.on{
+      opacity:1;
+      pointer-events:auto;
+    }
+    .modal{
+      width:min(720px, 92%);
+      border-radius: 22px;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(255,255,255,0.75);
+      box-shadow: 0 28px 90px rgba(0,0,0,0.28);
+      padding: 22px 20px 18px;
+      text-align:center;
+      transform: translateY(12px) scale(0.98);
+      transition: transform .35s cubic-bezier(.2,.9,.2,1);
+    }
+    .overlay.on .modal{
+      transform: translateY(0) scale(1);
+    }
+
+    .yay{
+      margin: 8px 0 10px;
+      font-size: clamp(24px, 2.4vw, 34px);
+      font-weight: 900;
+      letter-spacing: -0.4px;
+    }
+
+    .gif{
+      width:min(420px, 82vw);
+      border-radius: 18px;
+      border: 6px solid rgba(255,255,255,0.9);
+      box-shadow: 0 18px 46px rgba(0,0,0,0.20);
+    }
+
+    .date-highlight{
+  margin: 14px auto 6px;
+  padding: 12px 18px;
+  border-radius: 14px;
+  font-weight: 900;
+  font-size: 18px;
+  letter-spacing: 0.6px;
+  color: #2a0e1f;
+  background: linear-gradient(
+    135deg,
+    rgba(255,95,162,0.28),
+    rgba(255,209,227,0.55)
+  );
+  border: 1px solid rgba(255,255,255,0.85);
+  box-shadow:
+    0 12px 28px rgba(255,95,162,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.6);
+  display: inline-block;
+}
+
+
+    .small{
+      margin-top: 10px;
+      font-size: 12px;
+      color: rgba(31,16,32,0.58);
+    }
+
+    .close{
+      margin-top: 14px;
+      padding: 12px 18px;
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,0.10);
+      background: rgba(255,95,162,0.16);
+      font-weight: 800;
+      cursor:pointer;
+    }
+    .close:hover{ background: rgba(255,95,162,0.22); }
+
+    /* Reduced motion support */
+    @media (prefers-reduced-motion: reduce){
+      .view, .cta, .btn, .overlay, .modal, .heart, .glow { animation:none !important; transition:none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg" id="bg"></div>
+
+  <div class="wrap">
+    <div class="frame">
+      <div class="glow"></div>
+
+      <!-- COVER VIEW -->
+      <section class="view shown" id="coverView" aria-label="Cover">
+        <div class="card">
+          <div class="sparkle"></div>
+          <div class="heart-row">
+  💗 💖 💘 💞 💓 💖 💗
+</div>
+
+
+          <div class="badge">Hier nochmal in ganz besonderer Form😉</div>
+          <h1 class="titleCover">Ganz wichtige Frage...👀</h1>
+          <p class="subtitle">
+            Gibt eh nur eine Antwort...😝
+          </p>
+
+          <div class="cta" id="startBtn" role="button" tabindex="0" aria-label="Start">
+            <span style="font-size:20px;">✨</span>
+            <span>Starten</span>
+            <span style="opacity:.7;"></span>
+          </div>
+
+          <p class="subtitle" style="margin-top:14px; opacity:.85;">
+            
+          </p>
+        </div>
+      </section>
+
+      <!-- QUESTION VIEW -->
+      <section class="view hidden" id="questionView" aria-label="Frage">
+        <div class="card">
+          <div class="sparkle"></div>
+
+          <div class="bear-wrap" aria-hidden="true">
+  <span class="side-heart">💗</span>
+  <span class="bear">🧸</span>
+  <span class="side-heart">💗</span>
+</div>
+
+          <div class="question">Möchtest du mein Valentinstag Date sein?</div>
+          <p class="subtitle" style="margin-bottom: 10px;">
+            
+          </p>
+
+          <div class="playground" id="playground">
+            <button class="btn yes" id="yesBtn">JA 💖</button>
+            <button class="btn no" id="noBtn">nein</button>
+          </div>
+
+          <p class="small"></p>
+        </div>
+      </section>
+
+      <!-- SUCCESS OVERLAY -->
+      <div class="overlay" id="overlay" aria-label="Yay overlay" role="dialog" aria-modal="true">
+        <div class="modal">
+          <div style="font-size:40px; line-height:1;">🎉💞🐻</div>
+          <div class="yay">Das ist die einzig richtige Antwort😁 
+          </div>
+          <div class="date-highlight">
+  14.02.2026 · 18:00 Uhr 👀
+</div>
+
+          <img
+            class="gif"
+            alt="Lustiges GIF"
+            src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbTVldmFrZjYwc3E4amxxcW83OG52cG5jeDA3eDh5YnhrbW1pZ2s1OCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l2QDVRtezEHN3PgiI/giphy.gif"
+          />
+          <div class="small">
+            
+          </div>
+          <button class="close" id="closeBtn">Okayyy 😌</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // ----- Background hearts -----
+    const bg = document.getElementById("bg");
+    const hearts = ["💗","💖","💘","💞","💓","💕","✨"];
+    for (let i = 0; i < 18; i++){
+      const s = document.createElement("div");
+      s.className = "heart";
+      s.textContent = hearts[Math.floor(Math.random()*hearts.length)];
+      s.style.left = Math.floor(Math.random()*100) + "vw";
+      s.style.bottom = (-10 - Math.random()*30) + "vh";
+      s.style.animationDuration = (7 + Math.random()*9) + "s";
+      s.style.animationDelay = (Math.random()*5) + "s";
+      s.style.fontSize = (14 + Math.random()*20) + "px";
+      bg.appendChild(s);
+    }
+    // Trigger animation once appended
+    requestAnimationFrame(() => {
+      document.querySelectorAll(".heart").forEach(h => h.style.opacity = 1);
+    });
+
+    // ----- Views -----
+    const coverView = document.getElementById("coverView");
+    const questionView = document.getElementById("questionView");
+    const startBtn = document.getElementById("startBtn");
+
+    function goToQuestion(){
+      coverView.classList.remove("shown");
+      coverView.classList.add("hidden");
+      questionView.classList.remove("hidden");
+      questionView.classList.add("shown");
+      // focus big button for nice UX
+      setTimeout(() => document.getElementById("yesBtn").focus(), 300);
+    }
+
+    startBtn.addEventListener("click", goToQuestion);
+    startBtn.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") goToQuestion();
+    });
+
+    // ----- Buttons behavior -----
+    const playground = document.getElementById("playground");
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+
+    const overlay = document.getElementById("overlay");
+    const closeBtn = document.getElementById("closeBtn");
+
+    function moveNoButton(){
+      const pad = 12;
+
+      const areaW = playground.clientWidth;
+      const areaH = playground.clientHeight;
+
+      const btnW = noBtn.offsetWidth;
+      const btnH = noBtn.offsetHeight;
+
+      const maxX = Math.max(pad, areaW - btnW - pad);
+      const maxY = Math.max(pad, areaH - btnH - pad);
+
+      const x = Math.floor(Math.random() * (maxX - pad + 1)) + pad;
+      const y = Math.floor(Math.random() * (maxY - pad + 1)) + pad;
+
+      // Smooth movement: use translate via left/top and a transition
+      noBtn.style.transition = "left .22s ease, top .22s ease, transform .22s ease";
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
+      noBtn.style.transform = "translate(0,0)";
+    }
+
+    noBtn.addEventListener("mouseenter", moveNoButton);
+    noBtn.addEventListener("pointerdown", (e) => {
+      e.preventDefault();
+      moveNoButton();
+    });
+
+    // Give it an initial random position
+    moveNoButton();
+
+    yesBtn.addEventListener("click", () => {
+      overlay.classList.add("on");
+    });
+
+    closeBtn.addEventListener("click", () => {
+      overlay.classList.remove("on");
+    });
+
+    // Close overlay on Esc
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") overlay.classList.remove("on");
+    });
+  </script>
+</body>
+</html>a
